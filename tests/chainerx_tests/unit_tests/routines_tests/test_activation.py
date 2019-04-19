@@ -54,6 +54,101 @@ class UnaryMathTestBase(object):
         return y,
 
 
+class MathScalarTestBase(UnaryMathTestBase):
+
+    def func(self, xp, a):
+        scalar = self.scalar_type(self.scalar_value)
+        return self.func_scalar(xp, a, scalar)
+
+_in_out_dtypes_arithmetic_invalid = [
+    (('bool_', 'bool_'), 'bool_'),
+    (('bool_', 'int8'), 'int8'),
+    (('bool_', 'int16'), 'int16'),
+    (('bool_', 'int32'), 'int32'),
+    (('bool_', 'int64'), 'int64'),
+    (('bool_', 'uint8'), 'uint8'),
+    (('bool_', 'float16'), 'float16'),
+    (('bool_', 'float32'), 'float32'),
+    (('bool_', 'float64'), 'float64'),
+    (('int8', 'bool_'), 'int8'),
+    (('int16', 'bool_'), 'int16'),
+    (('int32', 'bool_'), 'int32'),
+    (('int64', 'bool_'), 'int64'),
+    (('uint8', 'bool_'), 'uint8'),
+    (('float16', 'bool_'), 'float16'),
+    (('float32', 'bool_'), 'float32'),
+    (('float64', 'bool_'), 'float64'),
+]
+
+
+_in_out_dtypes_arithmetic = [
+    dtypes for dtypes in dtype_utils.result_dtypes_two_arrays
+    if dtypes not in _in_out_dtypes_arithmetic_invalid
+]
+
+
+_in_out_dtypes_inplace_arithmetic_invalid = [
+    ((t1, t2), t3) for (t1, t2), t3 in _in_out_dtypes_arithmetic
+    if (numpy.dtype(t1).kind != 'f' and numpy.dtype(t2).kind == 'f')
+] + _in_out_dtypes_arithmetic_invalid
+
+
+_in_out_dtypes_inplace_arithmetic = [
+    dtypes for dtypes in dtype_utils.result_dtypes_two_arrays
+    if dtypes not in _in_out_dtypes_inplace_arithmetic_invalid
+]
+
+
+_in_out_dtypes_array_int_scalar = [
+    # Int scalar.
+    (('int8',), int, 'int8'),
+    (('int16',), int, 'int16'),
+    (('int32',), int, 'int32'),
+    (('int64',), int, 'int64'),
+    (('uint8',), int, 'uint8'),
+    (('float16',), int, 'float16'),
+    (('float32',), int, 'float32'),
+    (('float64',), int, 'float64'),
+]
+
+
+_in_out_dtypes_int_array_float_scalar = [
+    # Int arrays and float scalars.
+    (('int8',), float, 'float32'),
+    (('int16',), float, 'float32'),
+    (('int32',), float, 'float32'),
+    (('int64',), float, 'float32'),
+    (('uint8',), float, 'float32'),
+]
+
+
+_in_out_dtypes_float_array_float_scalar = [
+    # Float arrays and flaot scalars.
+    (('float16',), float, 'float16'),
+    (('float32',), float, 'float32'),
+    (('float64',), float, 'float64'),
+]
+
+
+_in_out_dtypes_arithmetic_scalar = (
+    _in_out_dtypes_array_int_scalar
+    + _in_out_dtypes_int_array_float_scalar
+    + _in_out_dtypes_float_array_float_scalar)
+
+
+_in_out_dtypes_inplace_arithmetic_scalar = (
+    _in_out_dtypes_array_int_scalar
+    + _in_out_dtypes_float_array_float_scalar)
+
+
+_in_out_dtypes_float_arithmetic_scalar = (
+    _in_out_dtypes_int_array_float_scalar
+    + _in_out_dtypes_float_array_float_scalar)
+
+
+_in_out_dtypes_inplace_float_arithmetic_scalar = (
+    _in_out_dtypes_float_array_float_scalar)
+
 _in_out_float_dtypes_math_functions = [
     # Float.
     (('float16',), 'float16'),
@@ -99,6 +194,36 @@ class TestRelu(UnaryMathTestBase, op_utils.NumpyOpTest):
         if xp is numpy:
             return numpy.maximum(a, 0)
         return xp.relu(a)
+
+
+@op_utils.op_test(['native:0', 'cuda:0'])
+@chainer.testing.parameterize(*(
+    # Special shapes
+    chainer.testing.product({
+        'shape': [(), (0,), (1,), (2, 0, 3), (1, 1, 1), (2, 3)],
+        'in_dtypes,scalar_type,out_dtype':
+            _in_out_dtypes_float_arithmetic_scalar,
+        'input': ['random'],
+        'scalar_value': [2.0, 3.0],
+        
+    })
+    # Special values
+    + chainer.testing.product({
+        'shape': [(2, 3)],
+        'in_dtypes,scalar_type,out_dtype':
+            _in_out_dtypes_float_arithmetic_scalar,
+        'input': [float('inf')],
+        'scalar_value': [1, 2],
+        'skip_backward_test': [True],
+        'skip_double_backward_test': [True],
+    })
+))
+class TestLeakyRelu(MathScalarTestBase, op_utils.NumpyOpTest):
+
+    def func_scalar(self, xp, a, scalar):
+        if xp is numpy:
+            return numpy.maximum(a, 0) + scalar * numpy.minimum(a, 0);
+        return xp.leakyrelu(a, scalar);
 
 
 @op_utils.op_test(['native:0', 'cuda:0'])

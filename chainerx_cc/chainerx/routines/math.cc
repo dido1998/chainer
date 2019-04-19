@@ -767,6 +767,14 @@ Array Relu(const Array& x) {
     return Maximum(0, x_cast);
 }
 
+Array LeakyRelu(const Array& x, Scalar negative_slope) {
+    Dtype dtype = GetMathResultDtype(x.dtype());
+    const Array& x_cast = x.dtype() == dtype ? x : x.AsType(dtype);
+    Array x_cast_pos = Maximum(0, x_cast);
+    Array x_cast_neg = Minimum(0, x_cast);
+    return x_cast_pos + negative_slope * x_cast_neg;
+}
+
 Array Softmax(const Array& x, const OptionalAxes& axis) {
     Dtype dtype = GetMathResultDtype(x.dtype());
     const Array& x_cast = x.dtype() == dtype ? x : x.AsType(dtype);

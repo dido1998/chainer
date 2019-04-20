@@ -60,6 +60,53 @@ class MathScalarTestBase(UnaryMathTestBase):
         scalar = self.scalar_type(self.scalar_value)
         return self.func_scalar(xp, a, scalar)
 
+class BinaryMathTestBase(object):
+
+    def setup(self):
+        in_dtype1, in_dtype2 = self.in_dtypes
+
+        kind1 = numpy.dtype(in_dtype1).kind
+        kind2 = numpy.dtype(in_dtype2).kind
+        if kind1 != 'f' or kind2 != 'f':
+            self.skip_backward_test = True
+            self.skip_double_backward_test = True
+
+        if in_dtype1 == 'float16' or in_dtype2 == 'float16':
+            self.check_forward_options.update({'rtol': 1e-3, 'atol': 1e-3})
+            self.check_backward_options.update({'rtol': 1e-3, 'atol': 1e-3})
+            self.check_double_backward_options.update(
+                {'rtol': 1e-3, 'atol': 1e-3})
+
+    def generate_inputs(self):
+        in_dtype1, in_dtype2 = self.in_dtypes
+        if self.input_lhs == 'random':
+            a = array_utils.uniform(self.shape, in_dtype1)
+        elif isinstance(self.input_lhs, (bool, int, float)):
+            a = numpy.full(self.shape, self.input_lhs, dtype=in_dtype1)
+        else:
+            assert False
+        if self.input_rhs == 'random':
+            b = array_utils.uniform(self.shape, in_dtype2)
+        elif isinstance(self.input_rhs, (bool, int, float)):
+            b = numpy.full(self.shape, self.input_rhs, dtype=in_dtype2)
+        else:
+            assert False
+        return a, b
+
+    def forward_xp(self, inputs, xp):
+        a, b = inputs
+        # This cast was introduced in order to avoid decreasing precision.
+        # ex.) x / y becomes a float16 array where x and y are an int8 arrays.
+        a = dtype_utils.cast_if_numpy_array(xp, a, self.out_dtype)
+        b = dtype_utils.cast_if_numpy_array(xp, b, self.out_dtype)
+        with IgnoreNumpyFloatingPointError():
+            y = self.func(xp, a, b)
+        y = dtype_utils.cast_if_numpy_array(xp, y, self.out_dtype)
+        return y,
+
+def _make_same_in_out_dtypes(number_of_in_params, dtypes):
+    return [((dtype,) * number_of_in_params, dtype) for dtype in dtypes]
+
 _in_out_dtypes_arithmetic_invalid = [
     (('bool_', 'bool_'), 'bool_'),
     (('bool_', 'int8'), 'int8'),
@@ -224,6 +271,44 @@ class TestLeakyRelu(MathScalarTestBase, op_utils.NumpyOpTest):
         if xp is numpy:
             return numpy.maximum(a, 0) + scalar * numpy.minimum(a, 0);
         return xp.leakyrelu(a, scalar);
+
+@op_utils.op_test(['native:0', 'cuda:0'])
+@chainer.testing.parameterize(*(
+    # Special shapes
+    chainer.testing.product({
+        'shape': [(), (0,), (1,), (2, 0, 3), (1, 1, 1), (2, 3)],
+        'in_dtypes,out_dtype': (
+            _make_same_in_out_dtypes(2, chainerx.testing.numeric_dtypes)),
+        'input_lhs': ['random'],
+        'input_rhs': ['random'],
+        
+    })
+    # Dtype combinations
+    + chainer.testing.product({
+        'shape': [(2, 3)],
+        'in_dtypes,out_dtype': _in_out_dtypes_arithmetic,
+        'input_lhs': ['random'],
+        'input_rhs': ['random'],
+        
+    })
+    # Special values
+    + chainer.testing.product({
+        'shape': [(2, 3)],
+        'in_dtypes,out_dtype': (
+            _make_same_in_out_dtypes(2, chainerx.testing.float_dtypes)),
+        'input_lhs': ['random', float('inf'), -float('inf'), float('nan')],
+        'input_rhs': ['random', float('inf'), -float('inf'), float('nan')],
+        'skip_backward_test': [True],
+        'skip_double_backward_test': [True],
+    })
+))
+class TestPRelu(BinaryMathTestBase, op_utils.NumpyOpTest):
+
+    def func(self, xp, a, b):
+        if xp is numpy:
+            return numpy.maximum(a, 0) + b * numpy.minimum(b, 0)
+        return xp.PRelu(a, b)
+
 
 
 @op_utils.op_test(['native:0', 'cuda:0'])

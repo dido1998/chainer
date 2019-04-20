@@ -101,6 +101,8 @@ Array Relu(const Array& x);
 
 Array LeakyRelu(const Array& x, Scalar negative_slope);
 
+Array PRelu(const Array& x, const Array& w);
+
 Array Softmax(const Array& x, const OptionalAxes& axis = nonstd::nullopt);
 
 Array Square(const Array& x);

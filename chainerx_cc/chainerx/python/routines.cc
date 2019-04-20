@@ -653,6 +653,9 @@ void InitChainerxMath(pybind11::module& m) {
     m.def("leakyrelu", [](const ArrayBodyPtr& x, Scalar negative_slope) { return MoveArrayBody(LeakyRelu(Array{x}, negative_slope)); },
       py::arg("x"), 
       py::arg("negative_slope") = 0.01);
+    m.def("prelu", [](const ArrayBodyPtr& x, const Array& w) { return MoveArrayBody(PRelu(Array{x}, Array{w})); },
+      py::arg("x"), 
+      py::arg("w"));
     m.def("softmax",
           [](const ArrayBodyPtr& x, int8_t axis) { return MoveArrayBody(Softmax(Array{x}, Axes{axis})); },
           py::arg("x"),

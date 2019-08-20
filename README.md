@@ -34,13 +34,9 @@
 - [Implementation of Relu for ChainerX](https://github.com/chainer/chainer/pull/6731) [Merged]
 
 ### After GSoC selection
-- [LSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7282) [Open]
-
-  This includes the CPU and GPU(CUDNN) implementation of multilayer uni-directional and bi-directional LSTMs.
-- [GRU implementation for ChainerX](https://github.com/chainer/chainer/pull/7678) [Open]
 
   This includes the CPU and GPU(CUDNN) implementation of multilayer uni-directional and bi-directional GRUs.
-- [Vanilla RNN implementation for ChainerX](https://github.com/chainer/chainer/pull/7764) [Open]
+- [LSTM, GRU and RNN implementation for ChainerX](https://github.com/chainer/chainer/pull/7764) [Merged]
 
   This includes the CPU and GPU(CUDNN) implementation of multilayer uni-directional and bi-directional RNNs.
 - [TreeLSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7720) [Open]
@@ -54,9 +50,9 @@
 #### the below PRs are made for modification of Chainer tests to incorporate tests for chainerx counterparts of the Chainer routines that the corresponding tests are written for.
 - [Simplify n_step_gru tests](https://github.com/chainer/chainer/pull/7806) [Merged]
 - [Simplify slstm test](https://github.com/chainer/chainer/pull/7805) [Merged]
-- [Simplify lstm test](https://github.com/chainer/chainer/pull/7808) [Open]
-- [Simplify n_step_lstm test](https://github.com/chainer/chainer/pull/7807) [Open]
-- [Simplify n_step_rnn test](https://github.com/chainer/chainer/pull/7804) [Open]
+- [Simplify lstm test](https://github.com/chainer/chainer/pull/7808) [Merged]
+- [Simplify n_step_lstm test](https://github.com/chainer/chainer/pull/7807) [Merged]
+- [Simplify n_step_rnn test](https://github.com/chainer/chainer/pull/7804) [Merged]
 
 
 

@@ -46,6 +46,7 @@
 
   This includes the implementation of slstm.
 - [Word embeddings for ChainerX](https://github.com/chainer/chainer/pull/7784) [Open]
+
   Word embeddings support for ChainerX
 #### the below PRs are made for modification of Chainer tests to incorporate tests for chainerx counterparts of the Chainer routines that the corresponding tests are written for.
 - [Simplify n_step_gru tests](https://github.com/chainer/chainer/pull/7806) [Merged]

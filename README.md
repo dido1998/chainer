@@ -39,10 +39,10 @@
 - [LSTM, GRU and RNN implementation for ChainerX](https://github.com/chainer/chainer/pull/7764) [Merged]
 
   This includes the CPU and GPU(CUDNN) implementation of multilayer uni-directional and bi-directional RNNs.
-- [TreeLSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7720) [Open]
+- [TreeLSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7720) [Merged]
 
   This includes the implementation of tree-lstm.
-- [SLSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7783) [Open]
+- [SLSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7783) [Merged]
 
   This includes the implementation of slstm.
 - [Word embeddings for ChainerX](https://github.com/chainer/chainer/pull/7784) [Open]

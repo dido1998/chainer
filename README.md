@@ -19,9 +19,9 @@
 | **Slack invitation** ([en](https://bit.ly/join-chainer-slack), [ja](https://bit.ly/join-chainer-jp-slack))
 | **Twitter** ([en](https://twitter.com/ChainerOfficial), [ja](https://twitter.com/ChainerJP))
 
-## My Contributions (Aniket Didolkar)
+# My Contributions (Aniket Didolkar)
 
-### Before GSoC selection
+## Before GSoC selection
 
 PR | Description | Merged? |
 -- | ----------- | ------- |
@@ -31,9 +31,9 @@ PR | Description | Merged? |
 [#6715](https://github.com/chainer/chainer/pull/6715) | Implementation of absolute for ChainerX | yes |
 [#6731](https://github.com/chainer/chainer/pull/6731) | Implementation of Relu for ChainerX | yes |
 
-### After GSoC selection
+## After GSoC selection
 
-## Main Feature-Based PRs
+### Main Feature-Based PRs
 These PRs include the main features that were to be implemented during GSoC.
 
 PR | Description | Docs | Merged? |
@@ -43,7 +43,7 @@ PR | Description | Docs | Merged? |
 [#7720](https://github.com/chainer/chainer/pull/7720) | This includes the implementation of `TreeLstm` as an activation function |[link](https://docs.chainer.org/en/latest/chainerx/reference/generated/chainerx.tree_lstm.html#chainerx.tree_lstm)| yes | 
 [#7784](https://github.com/chainer/chainer/pull/7784) | This includes the implementation of word embeddings | | no |
 
-## Supplementary PRs
+### Supplementary PRs
 These are the supplementary PRs that were implemented that were necessary for merging the feature-based PRs mentioned above. These mainly include
 * Chainer test fixes so that ChainerX routines could be tested from Chainer.
 * Documentation fixes for the features above

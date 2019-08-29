@@ -59,9 +59,22 @@ PR | Description | Merged? |
 [#7903](https://github.com/chainer/chainer/pull/7903) | Simplify word embedding test in Chainer | yes |
 [#7985](https://github.com/chainer/chainer/pull/7985) | Fix RNN docs for ChainerX | yes | 
 
+### Short Description of GSoC project
+The main aim of this project was to implement all the recurrent neural network based routines available in Chainer (under [chainer.function.rnn](https://github.com/chainer/chainer/tree/master/chainer/functions/rnn)) in ChainerX. All the feature based PRs that have been merged can be called using the C++ and the Python API of ChainerX. For each of the [chainer rnn functions](https://github.com/chainer/chainer/tree/master/chainer/functions/rnn), I have implemented the `forward_chainerx` function, which means the ChainerX rnn functions can be used by calling the Chainer rnn functions and specifying the appropriate device as mentioned [here](https://docs.chainer.org/en/stable/chainerx/tutorial/index.html#run-your-chainer-code-with-chainerx).
 
+For each feature the basic procedure was as follows : 
+* Implement the feature using the other routines already available if possible.
+* If [CUDNN](https://developer.nvidia.com/cudnn) supports the given feature, then implement the forward and backward CUDNN kernels for the given feature.
+* Write tests for the given feature.
+* Write documentation for the given feature.
 
+Most of the Supplementary PRs involve test fixes. When implementing the `forward_chainerx`, there had to be a way to test the ChainerX code from Chainer. The original tests were not able to do that. Hence, I had to modify the tests such that the ChainerX code could be tested seemlessly from Chainer.
 
+### Future Work
+* Support [Dropout](https://medium.com/@amarbudhiraja/https-medium-com-amarbudhiraja-learning-less-to-learn-better-dropout-in-deep-machine-learning-74334da4bfc5) in the `n_step_lstm/bilstm`, `n_step_gru/bigru` and `n_step_rnn/birnn` routines.
+* Demonstrate through an example, the speed-up that ChainerX offers over Chainer and PyTorch in the case of RNNs.
+
+Thick line
 
 
 *Chainer* is a Python-based deep learning framework aiming at flexibility.

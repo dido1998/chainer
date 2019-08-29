@@ -74,8 +74,7 @@ Most of the Supplementary PRs involve test fixes. When implementing the `forward
 * Support [Dropout](https://medium.com/@amarbudhiraja/https-medium-com-amarbudhiraja-learning-less-to-learn-better-dropout-in-deep-machine-learning-74334da4bfc5) in the `n_step_lstm/bilstm`, `n_step_gru/bigru` and `n_step_rnn/birnn` routines.
 * Demonstrate through an example, the speed-up that ChainerX offers over Chainer and PyTorch in the case of RNNs.
 
-Thick line
-
+-------------------------------------------------------------------------------------------------------------------
 
 *Chainer* is a Python-based deep learning framework aiming at flexibility.
 It provides automatic differentiation APIs based on the **define-by-run** approach (a.k.a. dynamic computational graphs) as well as object-oriented high-level APIs to build and train neural networks.

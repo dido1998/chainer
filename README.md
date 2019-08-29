@@ -20,40 +20,44 @@
 | **Twitter** ([en](https://twitter.com/ChainerOfficial), [ja](https://twitter.com/ChainerJP))
 
 ## My Contributions (Aniket Didolkar)
+
 ### Before GSoC selection
-- [Implementation of sigmoid for ChainerX](https://github.com/chainer/chainer/pull/6472) [Merged]
 
-  Implemented the sigmoid routine and wrote corresponding tests.
-- [Dot Product for higher dimensions for ChainerX](https://github.com/chainer/chainer/pull/6476) [Merged]
-
-  ChainerX only supported dot for <=2-dimensional arrays, after this it was able to support higher dimensions also.
-- [Elementwise power operator for ChainerX](https://github.com/chainer/chainer/pull/6496) [Merged]
-
-  This supports array^array, scalar^array and array^scalar.
-- [Implementation of absolute for ChainerX](https://github.com/chainer/chainer/pull/6715) [Merged]
-- [Implementation of Relu for ChainerX](https://github.com/chainer/chainer/pull/6731) [Merged]
+PR | Description | Merged? |
+-- | ----------- | ------- |
+[#6472](https://github.com/chainer/chainer/pull/6472) | Implementation of sigmoid for ChainerX | yes |
+[#6476](https://github.com/chainer/chainer/pull/6476) | Dot Product for higher dimensions for ChainerX | yes |
+[#6496](https://github.com/chainer/chainer/pull/6496) | Elementwise power operator for ChainerX | yes |
+[#6715](https://github.com/chainer/chainer/pull/6715) | Implementation of absolute for ChainerX | yes |
+[#6731](https://github.com/chainer/chainer/pull/6731) | Implementation of Relu for ChainerX | yes |
 
 ### After GSoC selection
 
-  This includes the CPU and GPU(CUDNN) implementation of multilayer uni-directional and bi-directional GRUs.
-- [LSTM, GRU and RNN implementation for ChainerX](https://github.com/chainer/chainer/pull/7764) [Merged]
+## Main Feature-Based PRs
+These PRs include the main features that were to be implemented during GSoC.
 
-  This includes the CPU and GPU(CUDNN) implementation of multilayer uni-directional and bi-directional RNNs.
-- [TreeLSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7720) [Merged]
+PR | Description | Docs | Merged? |
+-- | ----------- | ---- | ------ |
+[#7764](https://github.com/chainer/chainer/pull/7764) | This PR includes the CUDNN and CPU implementation of `LSTM/BiLSTM`, `GRU/BiGRU` and `RNN/BiRNN` | [link](https://docs.chainer.org/en/latest/chainerx/reference/routines.html#rnn) | yes |
+[#7783](https://github.com/chainer/chainer/pull/7783) | This includes the implementation of `S-LSTM` routine as an activation function | [link](https://docs.chainer.org/en/latest/chainerx/reference/generated/chainerx.slstm.html#chainerx.slstm) | yes |
+[#7720](https://github.com/chainer/chainer/pull/7720) | This includes the implementation of `TreeLstm` as an activation function |[link](https://docs.chainer.org/en/latest/chainerx/reference/generated/chainerx.tree_lstm.html#chainerx.tree_lstm)| yes | 
+[#7784](https://github.com/chainer/chainer/pull/7784) | This includes the implementation of word embeddings | | no |
 
-  This includes the implementation of tree-lstm.
-- [SLSTM implementation for ChainerX](https://github.com/chainer/chainer/pull/7783) [Merged]
+## Supplementary PRs
+These are the supplementary PRs that were implemented that were necessary for merging the feature-based PRs mentioned above. These mainly include
+* Chainer test fixes so that ChainerX routines could be tested from Chainer.
+* Documentation fixes for the features above
 
-  This includes the implementation of slstm.
-- [Word embeddings for ChainerX](https://github.com/chainer/chainer/pull/7784) [Open]
-
-  Word embeddings support for ChainerX
-#### the below PRs are made for modification of Chainer tests to incorporate tests for chainerx counterparts of the Chainer routines that the corresponding tests are written for.
-- [Simplify n_step_gru tests](https://github.com/chainer/chainer/pull/7806) [Merged]
-- [Simplify slstm test](https://github.com/chainer/chainer/pull/7805) [Merged]
-- [Simplify lstm test](https://github.com/chainer/chainer/pull/7808) [Merged]
-- [Simplify n_step_lstm test](https://github.com/chainer/chainer/pull/7807) [Merged]
-- [Simplify n_step_rnn test](https://github.com/chainer/chainer/pull/7804) [Merged]
+PR | Description | Merged? |
+-- | ----------- | ------ |
+[#7804](https://github.com/chainer/chainer/pull/7804) | Simplify `n_step_rnn/birnn` test in Chainer | yes | 
+[#7806](https://github.com/chainer/chainer/pull/7806) | Simplify `n_step_gru/bigru` test in Chainer | yes |
+[#7807](https://github.com/chainer/chainer/pull/7807) | Simplify `n_step_lstm/bilstm` test in Chainer | yes |
+[#7805](https://github.com/chainer/chainer/pull/7805) | Simplify `slstm` test in Chainer | yes |
+[#7808](https://github.com/chainer/chainer/pull/7808) | Simplify `lstm` (as an activation function) test in Chainer | yes |
+[#7881](https://github.com/chainer/chainer/pull/7881) | Simplify `TreeLSTM` test in Chainer | yes | 
+[#7903](https://github.com/chainer/chainer/pull/7903) | Simplify word embedding test in Chainer | yes |
+[#7985](https://github.com/chainer/chainer/pull/7985) | Fix RNN docs for ChainerX | yes | 
 
 
 
